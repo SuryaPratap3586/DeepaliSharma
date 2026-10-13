@@ -30,6 +30,19 @@ function Imgs({ value = [], onChange }) {
   return (<div><div className="row">{value.map((u, i) => (<div key={i}><img className="thumb" src={u} alt="" /><button type="button" className="btn danger" onClick={() => onChange(value.filter((_, j) => j !== i))}>x</button></div>))}</div>
     <input type="file" accept="image/*" multiple style={{ width: 'auto' }} onChange={async (e) => { const us = []; for (const f of e.target.files) { const u = await upload(f); if (u) us.push(u); } onChange([...value, ...us]); }} /></div>);
 }
+const PRESETS = { 'Earthy Green': ['#E8F5DC', '#26321B', '#6F8350', '#55683A', '#CFE1B9'], Purple: ['#07050d', '#ffffff', '#a88af5', '#ec6ab8', '#2a2a2d'], Blue: ['#050b14', '#ffffff', '#60a5fa', '#22d3ee', '#1c2431'], Green: ['#04100a', '#ffffff', '#4ade80', '#a3e635', '#1a2a20'], Orange: ['#120803', '#ffffff', '#fb923c', '#f43f5e', '#2d2118'], Light: ['#ffffff', '#111827', '#7c3aed', '#ec4899', '#f3f4f6'], Cream: ['#faf7f2', '#1f2937', '#b45309', '#e11d48', '#f1ebe0'] };
+function Theme({ d, setD }) {
+  const t = { bg: '#E8F5DC', text: '#26321B', accent: '#6F8350', accent2: '#55683A', card: '#CFE1B9', btn: '#ffffff', font: 'sans', ...(d.theme || {}) };
+  const set = (o) => setD({ ...d, theme: { ...t, ...o } });
+  return (<div className="item">
+    <span className="lbl">Quick presets (then fine-tune below)</span>
+    <div className="row">{Object.entries(PRESETS).map(([n, v]) => <button key={n} type="button" className="btn" style={{ background: v[2], color: v[0] }} onClick={() => set({ bg: v[0], text: v[1], accent: v[2], accent2: v[3], card: v[4], btn: '#ffffff' })}>{n}</button>)}</div>
+    {[['bg', 'Background'], ['text', 'Text'], ['accent', 'Accent (headings, highlights, borders)'], ['accent2', 'Accent 2 (button gradient end)'], ['card', 'Cards / boxes'], ['btn', 'Button text']].map(([k, l]) => (<div key={k}><span className="lbl">{l}</span>
+      <div className="row"><input type="color" value={t[k]} onChange={(e) => set({ [k]: e.target.value })} style={{ width: 60, padding: 2, margin: 0 }} /><input value={t[k]} onChange={(e) => set({ [k]: e.target.value })} style={{ maxWidth: 140, margin: 0 }} /></div></div>))}
+    <span className="lbl">Font style</span>
+    <select value={t.font} onChange={(e) => set({ font: e.target.value })}><option value="sans">Manrope (default)</option><option value="serif">Serif</option><option value="mono">Mono</option></select>
+    <small className="lbl">Save changes, then refresh the site to see the new theme.</small></div>);
+}
 function Proc({ value = [], onChange }) {
   const set = (i, k, v) => onChange(value.map((x, j) => (j === i ? { ...x, [k]: v } : x)));
   return (<div>{value.map((x, i) => (<div className="item" key={i}>
@@ -86,8 +99,10 @@ export default function Admin() {
     <div className="adm">
       <div className="row" style={{ justifyContent: 'space-between' }}><h2>Admin Panel</h2><div className="row"><a href="/" target="_blank" className="btn">View site</a><button className="btn danger" onClick={logout}>Logout</button></div></div>
       <div className="tabs">
-        {['profile', ...Object.keys(LISTS), 'messages'].map((t) => (<button key={t} className={tab === t ? 'on' : ''} onClick={() => setTab(t)}>{t === 'profile' ? 'Profile' : t === 'messages' ? `Messages (${msgs.length})` : LISTS[t].label}</button>))}
+        {['profile', 'theme', ...Object.keys(LISTS), 'messages'].map((t) => (<button key={t} className={tab === t ? 'on' : ''} onClick={() => setTab(t)}>{t === 'profile' ? 'Profile' : t === 'theme' ? 'Theme' : t === 'messages' ? `Messages (${msgs.length})` : LISTS[t].label}</button>))}
       </div>
+
+      {tab === 'theme' && <Theme d={d} setD={setD} />}
 
       {tab === 'profile' && <div className="item">{PROFILE.map((f) => <Field key={f[0]} f={f} value={d.profile?.[f[0]]} onChange={(v) => setProfile(f[0], v)} />)}</div>}
 

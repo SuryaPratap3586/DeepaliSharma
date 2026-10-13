@@ -1,9 +1,9 @@
 {
   "profile": {
-    "brand": "Deepali Sharma is a Graphic and UI/UX Designer",
+    "brand": "Deepali Graphic & UI/UX",
     "logo": "",
     "greeting": "Hi, I'm Deepali Sharma",
-    "role": "UI/UX & Graphic ",
+    "role": "UI/UX",
     "roleAccent": "DESIGNER",
     "subtitle": "I'm learning and building real-world UI/UX projects, focused on creating simple and user-friendly digital experiences.",
     "ctaText": "View My Work",
@@ -12,12 +12,12 @@
     "aboutRole": "Aspiring UI/UX Designer",
     "about": "I am a passionate and self-taught UI/UX designer focused on creating clean, user-friendly and modern digital experiences.",
     "photo": "",
-    "email": "Deepalisharma@gmail.com",
+    "email": "DeepaliSharma@gmail.com",
     "contactTitle": "Let's Work Together",
     "contactText": "Have a project in mind or looking for a UI/UX designer? Feel free to reach out — I'd love to collaborate.",
     "contactImage": "",
     "footerAbout": "I am a passionate and self-taught UI/UX designer focused on creating clean, user-friendly and modern digital experiences.",
-    "copyright": "© 2025 — DeepaliSuryaPratap "
+    "copyright": "© 2025 — Sunny Graphic Ui Design"
   },
   "stats": [
     {
@@ -246,5 +246,14 @@
     {
       "name": "Video Editing"
     }
-  ]
+  ],
+  "theme": {
+    "bg": "#E8F5DC",
+    "text": "#26321B",
+    "accent": "#6F8350",
+    "accent2": "#55683A",
+    "card": "#CFE1B9",
+    "btn": "#ffffff",
+    "font": "sans"
+  }
 }
