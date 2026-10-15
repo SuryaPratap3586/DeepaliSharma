@@ -33,7 +33,12 @@ export async function POST(req) {
       const uploadStream = cloudinary.uploader.upload_stream(
         {
           folder: "portfolio",
-          resource_type: "auto",
+          resource_type: isPdf ? "raw" : "image",
+          ...(isPdf
+            ? {
+                public_id: `${Date.now()}-${file.name.replace(/\.pdf$/i, "").replace(/[^a-zA-Z0-9_-]/g, "-")}.pdf`,
+              }
+            : {}),
         },
         (error, result) => {
           if (error) reject(error);
@@ -46,6 +51,7 @@ export async function POST(req) {
 
     return NextResponse.json({
       url: result.secure_url,
+      resourceType: result.resource_type,
     });
   } catch (error) {
     console.error("Cloudinary upload failed:", error);
