@@ -115,7 +115,7 @@ export default async function Home() {
       </section>
 
       {L("posters").length > 0 && (
-        <section style={{ maxWidth: "none", padding: "80px 0 0" }}>
+        <section style={{ maxWidth: "none", padding: "35px 0 0" }}>
           <Reveal>
             <h2 className="ttl" style={{ color: "var(--tx)" }}>
               SOCIAL <em>MEDIA</em>

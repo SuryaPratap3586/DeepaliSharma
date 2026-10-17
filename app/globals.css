@@ -139,11 +139,36 @@ textarea {
     display: none;
   }
 }
+
 section {
-  padding: 80px 20px;
+  padding: 45px 20px;
   max-width: 1200px;
   margin: 0 auto;
 }
+
+/* Hero ki existing height aur layout same rakho */
+.hero {
+  padding: 100px 20px 60px;
+}
+
+/* Featured projects ka extra vertical gap kam karo */
+.fwrap {
+  padding: 35px 0 45px;
+}
+
+/* Portfolio, Services aur About spacing */
+#portfolio,
+#services,
+#about {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/* Social Media section */
+.sm {
+  margin-top: 0;
+}
+
 .hero {
   min-height: 100svh;
   max-width: none;
@@ -1924,4 +1949,72 @@ select {
   .footer-about {
     grid-column: auto;
   }
+}
+
+/* bgvedio */
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
+  /* Aapka purana background yahan preserve rahega */
+  background: var(--bg);
+}
+
+.hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* social media backgound */
+
+.social-section {
+  position: relative;
+  isolation: isolate;
+  max-width: none;
+  padding: 35px 0 0;
+  overflow: hidden;
+}
+
+.social-section::before,
+.social-section::after {
+  content: "";
+  position: absolute;
+  top: 20%;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.social-section::before {
+  left: -140px;
+  background: #7c3aed;
+}
+
+.social-section::after {
+  right: -140px;
+  background: #06b6d4;
 }
