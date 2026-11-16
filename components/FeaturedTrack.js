@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import ProjectLink from '@/components/ProjectLink';
 
 export default function FeaturedTrack({ items }) {
   const list = [...items, ...items, ...items, ...items];
@@ -7,10 +7,10 @@ export default function FeaturedTrack({ items }) {
       <div className="frot">
         <div className="ftrack">
           {list.map((x, i) => (
-            <Link key={i} href={'/project/' + x.slug} className="fp">
-              {x.cover ? <img src={x.cover} alt="" /> : <div className="ph" />}
+            <ProjectLink key={i} url={x.link} className="fp">
+              {x.cover ? <img src={x.cover} alt={x.title || ''} loading="lazy" /> : <div className="ph" />}
               <span className="tag">{x.category}</span>
-            </Link>
+            </ProjectLink>
           ))}
         </div>
       </div>

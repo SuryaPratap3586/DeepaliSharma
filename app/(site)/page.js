@@ -8,7 +8,7 @@ import ContactForm from "@/components/ContactForm";
 export const dynamic = "force-dynamic";
 const TL = ({ a }) =>
   a.map((x, i) => (
-    <Reveal key={i} delay={i * 90}>
+    <Reveal key={i} delay={i * 90} variant="right">
       <div className="tc">
         <small>{x.year}</small>
         <h4>{x.title}</h4>
@@ -16,6 +16,27 @@ const TL = ({ a }) =>
       </div>
     </Reveal>
   ));
+// Education: image beside the details when one is uploaded, otherwise centered text.
+const Edu = ({ a }) => (
+  <div className="edu-list">
+    {a.map((x, i) => (
+      <Reveal key={i} delay={i * 110} variant="zoom">
+        <div className={"edu" + (x.image ? " has-img" : "")}>
+          {x.image && (
+            <div className="edu-img">
+              <img src={x.image} alt={x.place || x.title || ""} loading="lazy" />
+            </div>
+          )}
+          <div className="edu-body">
+            <small>{x.year}</small>
+            <h4>{x.title}</h4>
+            <p>{x.place}</p>
+          </div>
+        </div>
+      </Reveal>
+    ))}
+  </div>
+);
 export default async function Home() {
   const d = await getSite();
   const p = d.profile || {};
@@ -32,7 +53,7 @@ export default async function Home() {
 
         <div className="btns">
           <Link href="/portfolio" className="btn">
-            {p.ctaText || "View My Work"} →
+            {p.ctaText || "View My Work"} <span className="arr">→</span>
           </Link>
 
           {p.resume && (
@@ -40,9 +61,12 @@ export default async function Home() {
               href={p.resume}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn ghost"
+              className="btn dl"
             >
-              ⬇ Download Resume
+              <span className="dl-i" aria-hidden="true">
+                ↓
+              </span>
+              Download Resume
             </a>
           )}
         </div>
@@ -53,12 +77,12 @@ export default async function Home() {
           <h2 className="ttl">PORTFOLIO</h2>
           <p className="sub">Featured Projects</p>
         </Reveal>
-        <FeaturedTrack
-          items={L("projects").map((x) => ({ ...x, slug: slugOf(x) }))}
-        />
+        <Reveal variant="zoom">
+          <FeaturedTrack items={L("projects")} />
+        </Reveal>
         <div className="ctr">
           <Link href="/portfolio" className="btn">
-            View all projects
+            View all projects <span className="arr">→</span>
           </Link>
         </div>
       </section>
@@ -88,30 +112,32 @@ export default async function Home() {
           </h2>
           <p className="sub">{p.aboutHeadline}</p>
         </Reveal>
-        <div className="ab">
-          <Reveal>{p.photo && <img src={p.photo} alt="" />}</Reveal>
-          <div>
-            <Reveal>
+        <div className={"ab " + (p.photo ? "has-photo" : "no-photo")}>
+          {p.photo && (
+            <Reveal variant="left" className="ab-media">
+              <img className="ab-photo" src={p.photo} alt={p.aboutRole || "Profile photo"} />
+            </Reveal>
+          )}
+          <div className="ab-text">
+            <Reveal variant="right">
               <small className="hl">{p.aboutRole}</small>
               <p>{p.about}</p>
             </Reveal>
             <h3 className="h3">Experience</h3>
             <TL a={L("experience")} />
             <h3 className="h3">Education</h3>
-            <TL a={L("education")} />
+            <Edu a={L("education")} />
           </div>
         </div>
-        <div className="tools">
-          {L("tools").map((t, i) => (
-            <div
-              className="tool"
-              key={i}
-              style={{ animationDelay: i * 200 + "ms" }}
-            >
-              {t.image ? <img src={t.image} alt={t.name} /> : t.name}
-            </div>
-          ))}
-        </div>
+        <Reveal className="stg">
+          <div className="tools">
+            {L("tools").map((t, i) => (
+              <div className="tool" key={i} style={{ "--i": i }} title={t.name}>
+                {t.image ? <img src={t.image} alt={t.name} /> : t.name}
+              </div>
+            ))}
+          </div>
+        </Reveal>
       </section>
 
       {L("posters").length > 0 && (
@@ -138,7 +164,7 @@ export default async function Home() {
             GET IN <em>TOUCH</em>
           </h2>
         </Reveal>
-        <Reveal>
+        <Reveal variant="zoom">
           <ContactForm p={p} />
         </Reveal>
         <h2 className="ttl lets">LET&apos;S TALK</h2>

@@ -11,20 +11,9 @@ const LISTS = {
     label: "Projects",
     fields: [
       ["title", "Title"],
-      ["slug", "URL slug (optional)"],
       ["category", "Category", "cat"],
       ["cover", "Cover image (card)", "image"],
-      ["desc", "Description", "area"],
-      ["hero", "Top banner images (3 phone shots)", "images"],
-      ["role", "Role card"],
-      ["duration", "Duration card"],
-      ["tools", "Tools card"],
-      ["images", "Screens gallery (select many)", "images"],
-      ["process", "Design process steps", "proc"],
-      ["finalTitle", "Final UI title"],
-      ["finalText", "Final UI text", "area"],
-      ["before", "Final UI BEFORE image", "image"],
-      ["after", "Final UI AFTER image", "image"],
+      ["link", "Redirect URL (where the card opens)", "link"],
     ],
   },
   services: {
@@ -61,6 +50,7 @@ const LISTS = {
       ["year", "Year"],
       ["title", "Title"],
       ["place", "Institute"],
+      ["image", "Image / logo (optional)", "image"],
     ],
   },
   tools: {
@@ -190,50 +180,6 @@ function Img({ value, onChange }) {
   );
 }
 
-function Imgs({ value = [], onChange }) {
-  const images = Array.isArray(value) ? value : [];
-
-  return (
-    <div>
-      <div className="row">
-        {images.map((url, index) => (
-          <div key={`${url}-${index}`}>
-            <img className="thumb" src={url} alt={`Uploaded ${index + 1}`} />
-            <button
-              type="button"
-              className="btn danger"
-              onClick={() =>
-                onChange(images.filter((_, itemIndex) => itemIndex !== index))
-              }
-            >
-              Remove
-            </button>
-          </div>
-        ))}
-      </div>
-
-      <input
-        type="file"
-        accept="image/*"
-        multiple
-        style={{ width: "auto" }}
-        onChange={async (event) => {
-          const files = Array.from(event.target.files || []);
-          const uploaded = [];
-
-          for (const file of files) {
-            const url = await upload(file);
-            if (url) uploaded.push(url);
-          }
-
-          if (uploaded.length) onChange([...images, ...uploaded]);
-          event.target.value = "";
-        }}
-      />
-    </div>
-  );
-}
-
 function Theme({ d, setD }) {
   const theme = {
     bg: "#E8F5DC",
@@ -324,61 +270,6 @@ function Theme({ d, setD }) {
   );
 }
 
-function Proc({ value = [], onChange }) {
-  const steps = Array.isArray(value) ? value : [];
-
-  const setStep = (index, key, nextValue) =>
-    onChange(
-      steps.map((step, itemIndex) =>
-        itemIndex === index ? { ...step, [key]: nextValue } : step,
-      ),
-    );
-
-  return (
-    <div>
-      {steps.map((step, index) => (
-        <div className="item" key={index}>
-          <input
-            placeholder="Step title (e.g. Research & Pain Points)"
-            value={step.title || ""}
-            onChange={(event) => setStep(index, "title", event.target.value)}
-          />
-
-          <textarea
-            rows={3}
-            placeholder="Step text"
-            value={step.text || ""}
-            onChange={(event) => setStep(index, "text", event.target.value)}
-          />
-
-          <Img
-            value={step.image || ""}
-            onChange={(nextValue) => setStep(index, "image", nextValue)}
-          />
-
-          <button
-            type="button"
-            className="btn danger"
-            onClick={() =>
-              onChange(steps.filter((_, itemIndex) => itemIndex !== index))
-            }
-          >
-            Delete step
-          </button>
-        </div>
-      ))}
-
-      <button
-        type="button"
-        className="btn"
-        onClick={() => onChange([...steps, {}])}
-      >
-        + Add step
-      </button>
-    </div>
-  );
-}
-
 function Field({ f, value, onChange, cats = [] }) {
   const [, label, type] = f;
 
@@ -396,12 +287,20 @@ function Field({ f, value, onChange, cats = [] }) {
             <option key={category}>{category}</option>
           ))}
         </select>
-      ) : type === "proc" ? (
-        <Proc value={value} onChange={onChange} />
       ) : type === "image" ? (
         <Img value={value} onChange={onChange} />
-      ) : type === "images" ? (
-        <Imgs value={value} onChange={onChange} />
+      ) : type === "link" ? (
+        <>
+          <input
+            value={value ?? ""}
+            placeholder="https://www.behance.net/your-project  or  /portfolio"
+            onChange={(event) => onChange(event.target.value)}
+          />
+          <small className="lbl">
+            Full web address opens in a new tab. A path starting with / opens a
+            page on this site. Leave empty to make the card not clickable.
+          </small>
+        </>
       ) : type === "area" ? (
         <textarea
           rows={3}

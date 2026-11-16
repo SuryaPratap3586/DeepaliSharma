@@ -18,7 +18,7 @@ export default function ContactForm({ p }) {
         <textarea rows={4} placeholder="Message" value={f.message} onChange={set('message')} required />
         <button className="sbm">Submit</button>{s && <small>{s}</small>}
       </form>
-      {p.contactImage ? <img src={p.contactImage} alt="" /> : <div className="cph" />}
+      <div className="cimg">{p.contactImage ? <img src={p.contactImage} alt="" loading="lazy" /> : <div className="cph" />}</div>
     </div>
   );
 }

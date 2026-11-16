@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { slugOf } from "@/lib/util";
+import Reveal from "@/components/Reveal";
 
 const SOCIAL_ICONS = {
   instagram: "/instagram (1).png",
@@ -14,6 +15,7 @@ export default function Footer({ d }) {
 
   return (
     <footer className="ft">
+      <Reveal>
       <div className="fg">
         <div className="footer-about">
           <h4>About Us</h4>
@@ -60,6 +62,7 @@ export default function Footer({ d }) {
           ))}
         </div>
       </div>
+      </Reveal>
 
       <p className="cp">{p.copyright}</p>
     </footer>
