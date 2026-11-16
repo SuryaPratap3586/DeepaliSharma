@@ -2210,14 +2210,14 @@ html {
   opacity: 0;
   transition: opacity 0.45s ease;
 }
-.pc:hover .pc-media::after {
+.pc-link:hover .pc .pc-media::after {
   opacity: 1;
 }
 .pc img,
 .fp img {
   transition: transform 0.8s var(--ease);
 }
-.pc:hover img {
+.pc-link:hover .pc img {
   transform: scale(1.08);
 }
 .fp:hover img {
@@ -2226,7 +2226,7 @@ html {
 .pc h3 {
   transition: color 0.3s ease;
 }
-.pc:hover h3 {
+.pc-link:hover .pc h3 {
   color: var(--ac);
 }
 .pc .tag,
@@ -2234,7 +2234,7 @@ html {
   z-index: 1;
   transition: transform 0.4s var(--ease);
 }
-.pc:hover .tag,
+.pc-link:hover .pc .tag,
 .fp:hover .tag {
   transform: translateY(-3px);
 }
@@ -2599,5 +2599,85 @@ textarea:focus {
   }
   .rv .ttl::after {
     transform: none !important;
+  }
+}
+
+/* =====================================================================
+   Clickable project cards + View My Work button fix (round 3)
+   ===================================================================== */
+
+/* ---- Project cards: the whole card is one link with a fixed click area ---- */
+.pc-link,
+.fp {
+  display: block;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.pc-link {
+  position: relative;
+  border-radius: 18px;
+}
+.pc-link .pc {
+  width: auto;
+  height: 100%;
+}
+.pc-link.nolink,
+.fp.nolink {
+  cursor: default;
+}
+/* Decorative layers inside a card must never swallow the click */
+.pc-media::after,
+.pc .tag,
+.fp .tag,
+.pc img,
+.fp img,
+.pc .ph,
+.fp .ph {
+  pointer-events: none;
+}
+/* Lift / tilt is driven by hovering the fixed link, not the moving card */
+.pc-link:hover .tilt {
+  transform: translateY(-8px) rotate(-1.5deg) scale(1.02);
+  border-color: var(--ac);
+  box-shadow: 0 0 35px color-mix(in srgb, var(--ac) 45%, transparent);
+}
+.pc-link:active .pc {
+  transform: translateY(-2px) scale(0.98);
+  transition-duration: 0.12s;
+}
+.pc-link:focus-visible,
+.fp:focus-visible {
+  outline: 2px solid var(--ac);
+  outline-offset: 4px;
+}
+.pc-link.nolink:hover .tilt {
+  transform: translateY(-4px);
+}
+
+/* ---- "View My Work" button over the social media posters ---- */
+.btn.smbtn {
+  position: absolute;
+  left: 50%;
+  bottom: 24px;
+  z-index: 5;
+  transform: translateX(-50%);
+}
+.btn.smbtn:hover {
+  transform: translateX(-50%) translateY(-3px);
+}
+.btn.smbtn:active {
+  transform: translateX(-50%) scale(0.96);
+}
+
+/* ---- Touch screens ---- */
+@media (hover: none) {
+  .pc-link:hover .tilt {
+    transform: none;
+  }
+  .btn.smbtn:hover {
+    transform: translateX(-50%);
   }
 }

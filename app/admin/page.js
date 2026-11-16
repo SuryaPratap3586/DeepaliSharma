@@ -98,6 +98,22 @@ const PRESETS = {
   Orange: ["#120803", "#ffffff", "#fb923c", "#f43f5e", "#2d2118"],
   Light: ["#ffffff", "#111827", "#7c3aed", "#ec4899", "#f3f4f6"],
   Cream: ["#faf7f2", "#1f2937", "#b45309", "#e11d48", "#f1ebe0"],
+  // Dark themes
+  "Midnight Rose": ["#0f0a10", "#fdf2f8", "#f472b6", "#c084fc", "#2a1b2a"],
+  "Ocean Teal": ["#031417", "#ecfeff", "#2dd4bf", "#38bdf8", "#0f2a2e"],
+  "Sunset Coral": ["#1a0d0b", "#fff7ed", "#fb7185", "#fbbf24", "#33201c"],
+  "Royal Indigo": ["#0b0b1f", "#eef2ff", "#818cf8", "#c084fc", "#1e1e3f"],
+  "Forest Night": ["#0b130d", "#ecfdf5", "#34d399", "#a3e635", "#1a2a1e"],
+  "Crimson Night": ["#120607", "#fef2f2", "#f87171", "#fb923c", "#2b1214"],
+  Graphite: ["#111113", "#f4f4f5", "#a1a1aa", "#71717a", "#27272a"],
+  // Light themes
+  "Lavender Mist": ["#f5f3ff", "#1e1b4b", "#7c3aed", "#a855f7", "#ede9fe"],
+  "Mint Fresh": ["#f0fdf4", "#14532d", "#16a34a", "#0d9488", "#dcfce7"],
+  "Sky Blue": ["#f0f9ff", "#0c4a6e", "#0284c7", "#6366f1", "#e0f2fe"],
+  "Peach Cream": ["#fff7ed", "#431407", "#ea580c", "#db2777", "#ffedd5"],
+  "Sand Gold": ["#fbf8f1", "#292524", "#a16207", "#b45309", "#f1e9d6"],
+  "Rose Blush": ["#fff1f2", "#4c0519", "#e11d48", "#db2777", "#ffe4e6"],
+  "Paper Mono": ["#fafafa", "#18181b", "#27272a", "#52525b", "#ececec"],
 };
 
 const NAV = [
@@ -296,6 +312,12 @@ function Field({ f, value, onChange, cats = [] }) {
             placeholder="https://www.behance.net/your-project  or  /portfolio"
             onChange={(event) => onChange(event.target.value)}
           />
+          {!String(value || "").trim() && (
+            <small className="lbl" style={{ color: "#d97706", fontWeight: 600 }}>
+              ⚠ No URL yet: this project card will not be clickable on the
+              website.
+            </small>
+          )}
           <small className="lbl">
             Full web address opens in a new tab. A path starting with / opens a
             page on this site. Leave empty to make the card not clickable.

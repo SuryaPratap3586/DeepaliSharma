@@ -7,8 +7,8 @@ export default function FeaturedTrack({ items }) {
       <div className="frot">
         <div className="ftrack">
           {list.map((x, i) => (
-            <ProjectLink key={i} url={x.link} className="fp">
-              {x.cover ? <img src={x.cover} alt={x.title || ''} loading="lazy" /> : <div className="ph" />}
+            <ProjectLink key={i} url={x.link} label={x.title} className="fp">
+              {x.cover ? <img src={x.cover} alt={x.title || ''} loading="lazy" draggable="false" /> : <div className="ph" />}
               <span className="tag">{x.category}</span>
             </ProjectLink>
           ))}
