@@ -1,5 +1,7 @@
+import { Fragment } from "react";
 import Link from "next/link";
 import { getSite } from "@/lib/db";
+import HeroFX from "@/components/HeroFX";
 import { slugOf } from "@/lib/util";
 import Reveal from "@/components/Reveal";
 import FeaturedTrack from "@/components/FeaturedTrack";
@@ -41,17 +43,39 @@ export default async function Home() {
   const d = await getSite();
   const p = d.profile || {};
   const L = (k) => d[k] || [];
+  const heroImg = p.heroImage || p.photo;
+  const roleWords = String(p.role || "").split(/\s+/).filter(Boolean);
   return (
     <>
       <section className="hero">
-        <div className="blob" />
-        <h2 className="hi">{p.greeting}</h2>
-        <h1>
-          {p.role} <em>{p.roleAccent}</em>
+        <HeroFX />
+        <div className="hero-inner">
+        {heroImg && (
+          <div className="hero-avatar" style={{ "--delay": "0.1s" }}>
+            <span className="hero-avatar-ring" />
+            <img src={heroImg} alt={p.brand || "Profile"} />
+          </div>
+        )}
+        <h2 className="hi" style={{ "--delay": "0.25s" }}>
+          {p.greeting}
+        </h2>
+        <h1 className="hero-title">
+          {roleWords.map((w, i) => (
+            <Fragment key={i}>
+              <span className="w" style={{ "--d": i }}>
+                {w}
+              </span>{" "}
+            </Fragment>
+          ))}
+          {p.roleAccent && (
+            <span className="w" style={{ "--d": roleWords.length }}>
+              <em>{p.roleAccent}</em>
+            </span>
+          )}
         </h1>
-        <p>{p.subtitle}</p>
+        <p style={{ "--delay": "0.8s" }}>{p.subtitle}</p>
 
-        <div className="btns">
+        <div className="btns" style={{ "--delay": "1s" }}>
           <Link href="/portfolio" className="btn">
             {p.ctaText || "View My Work"} <span className="arr">→</span>
           </Link>
@@ -70,6 +94,10 @@ export default async function Home() {
             </a>
           )}
         </div>
+        </div>
+        <a href="#portfolio" className="scroll-cue" aria-label="Scroll to projects">
+          <span />
+        </a>
       </section>
 
       <section id="portfolio">

@@ -77,6 +77,11 @@ const PROFILE = [
   ["roleAccent", "Hero title (colored word)"],
   ["subtitle", "Hero subtitle", "area"],
   ["ctaText", "Hero button text"],
+  [
+    "heroImage",
+    "Hero profile image (optional; uses 'Your photo' if empty)",
+    "image",
+  ],
   ["resume", "Resume (PDF upload)", "image"],
   ["aboutHeadline", "About headline"],
   ["aboutRole", "About role"],
